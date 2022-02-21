@@ -24,6 +24,7 @@ body{
     overflow: auto;
 }
 
+
 .preview{
     position: absolute;
     width: 100vw;
@@ -187,15 +188,15 @@ body{
     margin-left: -30vw;
     background-color: rgb(0, 0, 0);
     border: 4px rgb(214, 214, 214) solid;
-    z-index: 8;
+    z-index: 9;
     justify-items: center;
     text-align: center;
     font-size: 50px;
 }
 
 .alertMes{
-    width: 100%;
-    height: 100%;
+    width: fit-content;
+    height: fit-content;
     grid-column-start: 1;
     grid-column-end: 3;
 }
@@ -205,6 +206,16 @@ body{
     height: 85%;
     border: 2px rgb(214, 214, 214) solid;
     cursor: pointer;
+}
+
+.blackout{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 8;
+    background-color: #000000;
+    opacity: 0.8;
+
 }
 
 .gameSection{
@@ -279,6 +290,8 @@ body{
 .cross:before {transform: rotate(45deg);}
 .cross:after {transform: rotate(-45deg);}
 
+
+
 .bomb{
     position: absolute;
     width: 28px;
@@ -303,7 +316,7 @@ body{
 }
 
 .bomb::after{
-    content: "00:01";
+    content: "00:00";
     position: absolute;
     width: 36px;
     height: 12px;
@@ -312,6 +325,71 @@ body{
     border: 1px double #ffffff;
     border-radius: 15%;
     font-size: 11px;
+}
+
+.bombAnimation::after{
+    animation: timing 3s 1 step-end;
+}
+
+@keyframes timing {
+    0%{content: "00:03";}
+    33%{content: "00:02";}
+    66%{content: "00:01";
+  }
+}
+
+.bombLight{
+    position: absolute;
+    left: 31px;
+    top: 17.5px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    animation: colorChange 3s 1 step-end;
+    z-index: 5;
+}
+
+@keyframes colorChange {
+    0%{background-color: red;}
+    20%{background-color: transparent;}
+    40%{background-color: red;}
+    50%{background-color: transparent;}
+    60%{background-color: red;}
+    70%{background-color: transparent;}
+    85%{background-color: red;}
+    90%{width: 100vw;
+    height: 100vh;}
+}
+
+  .nonCell{
+    overflow:hidden;
+    position: relative;
+    width: 100px;
+    height: 100px;
+    z-index: 4;
+    background:radial-gradient(#5e5e5e ,rgb(35, 49, 58));
+  }
+
+
+.nonCell::after{
+    content: "";
+    position: absolute;
+    margin: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: 5px solid #8a9dac;
+    box-shadow:5px 5px 5px #473d3d;
+}
+
+.nonCell::before{
+    content: "";
+    position: absolute;
+    margin: 30px;
+    width: 40px;
+    height: 40px;
+    background-image:
+    linear-gradient(to bottom right , transparent 45%, #8a9dac 45%,#8a9dac 55%,transparent 55%);
 }
 
 .inside{
