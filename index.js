@@ -6,6 +6,8 @@ let odd;
 let shift = 7;
 let oddColumns;
 let row;
+let emptySpace;
+
 let count;
 let flagCount;
 let bombSize;
@@ -16,10 +18,12 @@ let timeDiv = document.getElementById('time');
 
 let size;
 
+let pause;
 let game;
 let option;
 
 let mes = document.getElementsByClassName('alert')[0];
+let blackout = document.getElementById('windowBlackout');
 
 let preview = document.getElementsByClassName("preview")[0];
 
@@ -45,17 +49,19 @@ btnRestart.onclick = () => {
 
 function SizeChekAlert(i) {
     if (i>1000)  
-    {  
+    {   blackout.classList.add('blackout');
         mes.children[0].innerHTML = '<span>FIELD SIZE IS TOO LONG,<br>ARE YOU SURE?</span>';
         mes.style.display = 'grid';
         mes.children[1].onclick = () =>
         {
+            blackout.classList.remove('blackout');
             mes.style.display = 'none';
             createGame(i);
             preview.style.display = 'none';
         }
         mes.children[2].onclick = () =>
         {
+            blackout.classList.remove('blackout');
             mes.style.display = 'none';
         }
  
@@ -82,13 +88,14 @@ function createGame(i) {
 function initPar() {
     
     arr = [];
-
+    
     field.innerHTML = '';
     field.textContent= '';
     
     odd = false;
     //shift = 7;
     oddColumns = false;
+    emptySpace = 0;
     
     row = 0;
     count = 1;
@@ -101,8 +108,11 @@ function initPar() {
     
     size = 128;
     
+    pause = false;
     game = false;
     option = false;
+
+    mes.style.display = 'none';
 }
 
 function createSize() {
@@ -123,7 +133,9 @@ function createSize() {
         {
             odd = !odd;
         }
-    }   
+    }
+
+    emptySpace =  (oddPar - size);
 
 }
 
@@ -144,16 +156,18 @@ function createElementsThisSize() {
     cell.appendChild(closed);
 
     cell.addEventListener('click',()=> {
-        console.log(count);
-        if (game) {
-            count++;
-        return OpenCells(i);
+        if (!pause) {
+            console.log(count);
+            if (game ) {
+                if (!arr[i].visible)
+                    count++;
+                    return OpenCells(i);
+                }
+            else {
+                return startGame(i);
+            }   
         }
-        else {
-        return startGame(i);
-        }
-        }
-    );
+    });
 
     cell.addEventListener('contextmenu',(e)=>{
         e.preventDefault();
@@ -171,8 +185,15 @@ function createElementsThisSize() {
     field.appendChild(cell);
 }
 
+if (emptySpace!= shift) {
+for (let emptiness = 0; emptiness <= emptySpace; emptiness++)
+        {
+            let noCell = document.createElement('div');
+            noCell.className = 'nonCell';
+            field.appendChild(noCell);
+        }
+    }
 }
-
 
 
 function startGame(i) {
@@ -187,7 +208,7 @@ function startGame(i) {
 
 function setTime() {
     let timeId = setInterval(() => {
-        if (game) {
+        if (game && !pause) {
         time = addOneSecond(time);
         timeDiv.innerText = `TIME ${time[0]}${time[1]}:${time[2]}${time[3]}`;
         }
@@ -218,11 +239,12 @@ function addOneSecond(arr,i=arr.length-1,maxVal=9) {
 
 function setArea()
 {  
-    for (let i = 0; i <field.children.length;i++)
+    for (let i = 0; i <size;i++)
     {   
         if (arr[i].in == 10)
         {   let bomb = document.createElement('div');
-            bomb.classList.add('bomb');
+            bomb.classList.add('bomb'); 
+
             field.children[i].appendChild(bomb);
             continue;
         }
@@ -269,8 +291,25 @@ function OpenCells(index) {
     filtration(array,index,ContinueСycle);
     }
     else if (arr[index].in=== 10)
-    {
-        Explosion();
+    {   game = false;
+        pause = true;
+
+        let promise1 = new Promise((resolve) => {
+
+            let bomb = field.children[index].querySelector('.bomb');
+            let light = document.createElement('div');
+            light.classList.add('bombLight');
+            bomb.appendChild(light);
+            bomb.classList.add('bombAnimation');
+            setTimeout(() => {
+                resolve();
+              }, 4000);
+          });
+          
+          promise1.then(() => {
+            Explosion(index);
+          });
+
         return
     }
         victoryChek();
@@ -294,9 +333,14 @@ function ContinueСycle(i)
 
 function DeleteClosedDiv(i) {
     arr[i].visible = true;
+    if (arr[i].flag) {
     arr[i].flag = false;
+    flagCount--;
+    flagCounter.innerText = `BOMBS TAGGET: ${flagCount}`;
+    }
     let cell = field.children[i];
     cell.classList.remove('zFix');
+
     let closed = cell.querySelector("div");
     if (closed) closed.remove();
 }
@@ -390,30 +434,38 @@ function BombAroundCell(i) {
 
 function victoryChek() {
     if (count === arr.length - bombSize)
-    {
+    {   count = -Infinity;
+        game = false;
+        pause = true;
         mes.children[0].innerHTML = '<span>MISSION COMPLETED<br>RETURN TO MENU?</span>';
         returnMenu();
     }
 }
 
-function Explosion() {
-
+function Explosion(i) {
+        count--;
+        let noCell = document.createElement('div');
+        field.replaceChild(noCell,field.children[i])  
+        noCell.className = 'nonCell';
         mes.children[0].innerHTML = '<span>MISSION FAILED<br>RETURN TO MENU?</span>';
         returnMenu();
 }
 
 function returnMenu() {
+    blackout.classList.add('blackout');
     mes.style.display = 'grid';
-    game = false;
         mes.children[1].onclick = () =>
         {
             mes.style.display = 'none';
+            blackout.classList.remove('blackout');
             initPar();
             preview.style.display = 'flex';
         }
         mes.children[2].onclick = () =>
         {
+            blackout.classList.remove('blackout');
             game = true;
+            pause = false;
             mes.style.display = 'none';
         }
 }
