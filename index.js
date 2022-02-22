@@ -52,8 +52,9 @@ let btnsLimit = document.getElementsByClassName('setLimit');
 for (let btnLimit of btnsLimit) 
 {
     btnLimit.onclick = ()=>{
-        (limit)? btnLimit.classList.add('setLimitYes'):btnLimit.classList.remove('setLimitYes');
+        (limit)? btnLimit.classList.add('setLimitNo'):btnLimit.classList.remove('setLimitNo');
         limit=!limit;
+        console.log(limit)
     }
 }
 
@@ -107,7 +108,6 @@ function initPar() {
     //shift = 7;
     oddColumns = false;
     emptySpace = 0;
-    limit = true;
     
     row = 0;
     count = 1;
@@ -125,6 +125,14 @@ function initPar() {
     option = false;
 
     mes.style.display = 'none';
+}
+
+function updateLimBtn() {
+    limit = true;
+    for (let btnLimit of btnsLimit) 
+{
+    btnLimit.classList.remove('setLimitNo');
+}
 }
 
 function createSize() {
