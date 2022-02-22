@@ -71,11 +71,55 @@ body{
     width: 200px;
 }
 
+.setLimit{
+    display: grid;
+    height: 35%;
+    width: 19%;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.limitPreview{
+    height: 120px;
+    width: 600px;
+}
+
+.limitPreview::after{
+    
+    height: 120px;
+    width: 600px;
+}
+
+.limitOpt{
+    height: 70px;
+    width: 300px;
+    font-size: 25px;
+}
+
+.limitOpt::after{
+    height: 70px;
+    width: 300px;
+}
+
+.setLimit::after{
+    content: "";
+    position: absolute;
+    display: block;
+    background-color: red;
+    opacity: 0.2;
+}
+
+.setLimitYes::after{
+    background-color: green;
+}
+
+
 .bottomPreview{
     height: 20%;
 }
 
-.btn,.btnOption{
+.btn,.btnOption,.setLimit{
     background-color: transparent;
     cursor: pointer;
     border: 1px rgb(214, 214, 214) solid;
@@ -337,25 +381,41 @@ body{
 
 .bombLight{
     position: absolute;
-    left: 31px;
-    top: 17.5px;
-    width: 5px;
-    height: 5px;
+    left: 5px;
+    top:-4px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     animation: colorChange 3s 1 step-end;
     z-index: 5;
 }
 
 @keyframes colorChange {
-    0%{background-color: red;}
-    20%{background-color: transparent;}
-    40%{background-color: red;}
-    50%{background-color: transparent;}
-    60%{background-color: red;}
-    70%{background-color: transparent;}
-    85%{background-color: red;}
-    90%{width: 100vw;
-    height: 100vh;}
+    0%{background:radial-gradient(red ,transparent 20%);}
+    5%{background: transparent;}
+    10%{background:radial-gradient(red ,transparent 20%);}
+    15%{background: transparent;}
+    20%{background:radial-gradient(red ,transparent 20%);}
+    25%{background: transparent;}
+    30%{background:radial-gradient(red ,transparent 20%);}
+    35%{background: transparent;}
+    40%{background:radial-gradient(red ,transparent 20%);}
+    43%{background: transparent;}
+    46%{background:radial-gradient(red ,transparent 20%);}
+    49%{background: transparent;}
+    51%{background:radial-gradient(red ,transparent 20%);}
+    52%{background: transparent;}
+    54%{background:radial-gradient(red ,transparent 20%);}
+    56%{background: transparent;}
+    58%{background:radial-gradient(red ,transparent 20%);}
+    60%{background: transparent;}
+    62%{background:radial-gradient(red ,transparent 20%);}
+    64%{background: transparent;}
+    66%{background:radial-gradient(red ,transparent 20%);}
+    68%{background: transparent;}
+    70%{background:radial-gradient(red ,transparent 20%);
+        transform: scale(1.5,1.5);}
+    70%{background:radial-gradient(white ,transparent 20%);}
 }
 
   .nonCell{
@@ -428,5 +488,3 @@ body{
 .numbEigh{
     color:rgb(74, 0, 148)
 }
-
-
