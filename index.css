@@ -110,7 +110,7 @@ body{
     opacity: 0.2;
 }
 
-.setLimitYes::after{
+.setLimitNo::after{
     background-color: red;
 }
 
