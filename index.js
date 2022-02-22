@@ -7,6 +7,7 @@ let shift = 7;
 let oddColumns;
 let row;
 let emptySpace;
+let limit = false;
 
 let count;
 let flagCount;
@@ -47,6 +48,15 @@ btnRestart.onclick = () => {
     SizeChekAlert(inputValue);
 }
 
+let btnsLimit = document.getElementsByClassName('setLimit');
+for (let btnLimit of btnsLimit) 
+{
+    btnLimit.onclick = ()=>{
+        (limit)? btnLimit.classList.add('setLimitYes'):btnLimit.classList.remove('setLimitYes');
+        limit=!limit;
+    }
+}
+
 function SizeChekAlert(i) {
     if (i>1000)  
     {   blackout.classList.add('blackout');
@@ -76,7 +86,7 @@ function createGame(i) {
     initPar()
     size = i;
     shift = Math.floor(Math.sqrt(size)) - 1;
-    if (shift>=18) shift = 17;
+    if (shift>=18 && limit) shift = 17;
     oddColumns = !(shift%2);
     field.style.gridTemplateColumns = `repeat(${shift+1}, 1fr)`
     createSize();
@@ -96,6 +106,7 @@ function initPar() {
     //shift = 7;
     oddColumns = false;
     emptySpace = 0;
+    limit = false;
     
     row = 0;
     count = 1;
@@ -303,7 +314,7 @@ function OpenCells(index) {
             bomb.classList.add('bombAnimation');
             setTimeout(() => {
                 resolve();
-              }, 4000);
+              }, 3100);
           });
           
           promise1.then(() => {
