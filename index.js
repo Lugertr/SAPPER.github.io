@@ -7,7 +7,7 @@ let shift = 7;
 let oddColumns;
 let row;
 let emptySpace;
-let limit = false;
+let limit = true;
 
 let count;
 let flagCount;
@@ -106,7 +106,7 @@ function initPar() {
     //shift = 7;
     oddColumns = false;
     emptySpace = 0;
-    limit = false;
+    limit = true;
     
     row = 0;
     count = 1;
@@ -478,5 +478,6 @@ function returnMenu() {
             game = true;
             pause = false;
             mes.style.display = 'none';
+            setTime();
         }
 }
