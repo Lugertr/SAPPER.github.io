@@ -31,7 +31,7 @@ let preview = document.getElementsByClassName("preview")[0];
 let btnStart = document.getElementsByClassName('btn')[0];
 btnStart.onclick = () => {
     let inputValue = parseInt(document.getElementsByClassName("length")[0].value);
-    SizeChekAlert(inputValue);
+    ChekInput(inputValue);
 };
 
 let btnOption = document.getElementsByClassName("optionButton")[0];
@@ -45,7 +45,7 @@ btnOption.onclick = () => {
 let btnRestart = document.getElementsByClassName("btnOption")[0];
 btnRestart.onclick = () => {
     let inputValue = parseInt(document.getElementsByClassName("lengthOption")[0].value);
-    SizeChekAlert(inputValue);
+    ChekInput(inputValue);
 }
 
 let btnsLimit = document.getElementsByClassName('setLimit');
@@ -57,10 +57,11 @@ for (let btnLimit of btnsLimit)
     }
 }
 
-function SizeChekAlert(i) {
-    if (i>1000)  
+function ChekInput(i) {
+    if ((i>1000) || (!i))  
     {   blackout.classList.add('blackout');
-        mes.children[0].innerHTML = '<span>FIELD SIZE IS TOO LONG,<br>ARE YOU SURE?</span>';
+        (i)? mes.children[0].innerHTML = '<span>FIELD SIZE IS TOO LONG,<br>ARE YOU SURE?</span>':
+        mes.children[0].innerHTML = '<span>YOU WROTE NOT A NUMBER,<br>DO YOU REALLY WANT TO BREAK GAME?</span>';
         mes.style.display = 'grid';
         mes.children[1].onclick = () =>
         {
